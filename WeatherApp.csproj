@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyName>WeatherApp</AssemblyName>
+    <RootNamespace>WeatherApp</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Pour faire les appels HTTP à l'API OpenWeather -->
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+</Project>
