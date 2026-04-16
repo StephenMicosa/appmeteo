@@ -22,6 +22,8 @@ namespace WeatherApp.Forms
             _weatherService = new WeatherService();
             _favoritesService = new FavoritesService();
             InitializeHourlyForecastControls();
+            ApplyResponsiveLayout();
+            Resize += (_, __) => ApplyResponsiveLayout();
 
             LoadFavorites();
         }
@@ -141,6 +143,100 @@ namespace WeatherApp.Forms
 
             Controls.Add(_lblHourlyForecastTitle);
             Controls.Add(_panelHourlyForecast);
+        }
+
+        private void ApplyResponsiveLayout()
+        {
+            const int margin = 20;
+            const int spacing = 10;
+            const int topSearchTitleY = 15;
+            const int topSearchY = 35;
+
+            int clientWidth = ClientSize.Width;
+            int clientHeight = ClientSize.Height;
+            bool stackedLayout = clientWidth < 1120;
+
+            int btnSearchWidth = 120;
+            btnSearch.Size = new Size(btnSearchWidth, 30);
+
+            txtCity.Location = new Point(margin, topSearchY);
+            lblSearchTitle.Location = new Point(margin, topSearchTitleY);
+
+            if (!stackedLayout)
+            {
+                int rightPanelWidth = 260;
+                int rightPanelX = clientWidth - margin - rightPanelWidth;
+                int leftBoundary = rightPanelX - spacing;
+                int leftContentWidth = Math.Max(520, leftBoundary - margin);
+
+                btnSearch.Location = new Point(Math.Max(margin + 200, margin + leftContentWidth - btnSearchWidth), topSearchY);
+                txtCity.Size = new Size(Math.Max(200, btnSearch.Left - txtCity.Left - spacing), 30);
+                progressBar.Location = new Point(margin, 72);
+                progressBar.Size = new Size(leftContentWidth, 4);
+
+                panelMain.Location = new Point(margin, 90);
+                panelMain.Size = new Size(leftContentWidth, 220);
+
+                btnFavorite.Location = new Point(margin, panelMain.Bottom + spacing);
+                lblForecastTitle.Location = new Point(margin, btnFavorite.Bottom + 13);
+
+                panelForecast.Location = new Point(margin, lblForecastTitle.Bottom + spacing);
+                panelForecast.Size = new Size(leftContentWidth, 185);
+
+                if (_lblHourlyForecastTitle != null)
+                {
+                    _lblHourlyForecastTitle.Location = new Point(margin, panelForecast.Bottom + 15);
+                }
+
+                if (_panelHourlyForecast != null)
+                {
+                    _panelHourlyForecast.Location = new Point(margin, panelForecast.Bottom + 35);
+                    _panelHourlyForecast.Size = new Size(leftContentWidth, 140);
+                }
+
+                lblFavTitle.Location = new Point(rightPanelX, topSearchTitleY);
+                listFavorites.Location = new Point(rightPanelX, 40);
+                listFavorites.Size = new Size(rightPanelWidth, Math.Max(220, clientHeight - 120));
+
+                btnRemoveFavorite.Location = new Point(rightPanelX, listFavorites.Bottom + spacing);
+            }
+            else
+            {
+                int contentWidth = Math.Max(360, clientWidth - (margin * 2));
+
+                btnSearch.Location = new Point(Math.Max(margin + 200, margin + contentWidth - btnSearchWidth), topSearchY);
+                txtCity.Size = new Size(Math.Max(180, btnSearch.Left - txtCity.Left - spacing), 30);
+                progressBar.Location = new Point(margin, 72);
+                progressBar.Size = new Size(contentWidth, 4);
+
+                panelMain.Location = new Point(margin, 90);
+                panelMain.Size = new Size(contentWidth, 220);
+
+                btnFavorite.Location = new Point(margin, panelMain.Bottom + spacing);
+                lblForecastTitle.Location = new Point(margin, btnFavorite.Bottom + 13);
+
+                panelForecast.Location = new Point(margin, lblForecastTitle.Bottom + spacing);
+                panelForecast.Size = new Size(contentWidth, 185);
+
+                if (_lblHourlyForecastTitle != null)
+                {
+                    _lblHourlyForecastTitle.Location = new Point(margin, panelForecast.Bottom + 15);
+                }
+
+                if (_panelHourlyForecast != null)
+                {
+                    _panelHourlyForecast.Location = new Point(margin, panelForecast.Bottom + 35);
+                    _panelHourlyForecast.Size = new Size(contentWidth, 140);
+                }
+
+                int favoritesTop = (_panelHourlyForecast?.Bottom ?? panelForecast.Bottom) + 20;
+                lblFavTitle.Location = new Point(margin, favoritesTop);
+
+                listFavorites.Location = new Point(margin, lblFavTitle.Bottom + spacing);
+                listFavorites.Size = new Size(contentWidth, Math.Max(160, clientHeight - listFavorites.Top - 70));
+
+                btnRemoveFavorite.Location = new Point(margin, listFavorites.Bottom + spacing);
+            }
         }
 
         private void DisplayHourlyForecast(List<HourlyForecast> hourlyForecast)
