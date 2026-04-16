@@ -41,7 +41,7 @@ namespace WeatherApp.Forms
             // --- Form ---
             this.Text = "🌤 Application Météo";
             this.Size = new System.Drawing.Size(1000, 840);
-            this.MinimumSize = new System.Drawing.Size(1000, 840);
+            this.MinimumSize = new System.Drawing.Size(760, 620);
             this.BackColor = System.Drawing.Color.FromArgb(30, 39, 46);
             this.Font = new System.Drawing.Font("Segoe UI", 9);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -173,7 +173,8 @@ namespace WeatherApp.Forms
             this.panelForecast.Size = new System.Drawing.Size(680, 185);
             this.panelForecast.BackColor = System.Drawing.Color.Transparent;
             this.panelForecast.FlowDirection = System.Windows.Forms.FlowDirection.LeftToRight;
-            this.panelForecast.AutoScroll = false;
+            this.panelForecast.WrapContents = false;
+            this.panelForecast.AutoScroll = true;
 
             // --- Favoris panel (droite) ---
             this.lblFavTitle.Text = "⭐ Mes favoris";
@@ -189,6 +190,7 @@ namespace WeatherApp.Forms
             this.listFavorites.ForeColor = System.Drawing.Color.White;
             this.listFavorites.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listFavorites.Font = new System.Drawing.Font("Segoe UI", 10);
+            this.listFavorites.IntegralHeight = false;
             this.listFavorites.DoubleClick += new System.EventHandler(this.ListFavorites_DoubleClick);
 
             // --- btnRemoveFavorite ---
